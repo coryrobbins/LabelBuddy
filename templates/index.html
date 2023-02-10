@@ -33,7 +33,13 @@
   </head>
   <body>
     <div class="display">
-      {{ email }}
+      {{ emaili_body }}
     </div>
-    <form action="{{ url
+    <form action="{{ url_for('classify') }}" method="post">
+      {% for label in labels %}
+        <button type="submit" name="label" value="{{ label }}">{{ label }}</button>
+      {% endfor %}
+    </form>
+  </body>
+</html>
 
