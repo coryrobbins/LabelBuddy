@@ -3,16 +3,43 @@
     <style>
       /* Dark theme */
       body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background-color: #333;
         color: #fff;
       }
 
       /* White display */
-      .display {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #333;
+      .email-display {
+       background-color: #fff;
+       color: #000;
+       padding: 20px;
+       border-radius: 10px;
+       box-shadow: 0 0 10px #333;
+       border-radius: 10px;
+       overflow: scroll;
+       word-wrap: break-word;
+       overflow-wrap: break-word;
+       white-space: pre-wrap; 
+       width: 800px;
+       display: flex;
+       flex-wrap: wrap;
+       height: 400px;
+      }
+
+       /* label display */
+      .label-display {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #333;
+      padding: 10px;
+      text-align: center;
+      width: 200px;
+      height: 50px;
+      margin-top: 20px;
       }
 
       /* Shadow on buttons */
@@ -32,14 +59,18 @@
     </style>
   </head>
   <body>
-    <div class="display">
-      {{ emaili_body }}
+    <div class="email-display">
+      {{ email }}
     </div>
-    <form action="{{ url_for('classify') }}" method="post">
+    <div id="label-display">
+    Assigned Label: {{ assigned_label }}
+  </div>
+    <form action="{{ url_for('label') }}" method="post">
+      <button type="submit" name="back">Back</button>
       {% for label in labels %}
         <button type="submit" name="label" value="{{ label }}">{{ label }}</button>
       {% endfor %}
+       <button type="submit" name="next">Next</button>
     </form>
   </body>
 </html>
-
