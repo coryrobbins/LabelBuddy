@@ -10,7 +10,8 @@ labels = ['Label 1','Label 2','Label 3', 'Label 4',
           ]
 
 def load_dataframe():
-    df = pd.read_csv('email_body.csv')
+    file_name = 'emails.csv'
+    df = pd.read_csv(file_name)
     return df
 
 def get_email_by_index(df, index):
@@ -36,11 +37,22 @@ def index(index=None):
     return render_template("index.html", email=email, labels=labels, assigned_index=index, assigned_label=assigned_label)
 
 def get_next_email_index(df, index):
-        if df.empty: 
-            return None
-        next_index = df.index[df.index > index] 
-        if next_index.empty:
-            return None
+    """
+    Get the next email index greater than the given index.
+
+    Args:
+        df (pandas.DataFrame): Dataframe containing the email data.
+        index (int or callable): Index of the email to get the next index for.
+
+    Returns:
+        int: Next email index.
+    """
+    if callable(index):
+        index = index()
+    next_index = df.index[df.index > index]
+    if next_index.size == 0:
+        return "No more emails to label." 
+    else:    
         return next_index[0]
     
 @app.route('/label', methods=['POST'])
@@ -59,10 +71,10 @@ def label():
             print(f"Next Index: {next_index}")
             return redirect(url_for('index', index=next_index))
     elif 'next_email' in request.form:
+        print(f"Before calling get_next_email_index: index = {index}")
         next_index = get_next_email_index(df, index)
-        print(f"Next Index: {next_index}")
+        print(f"After calling get_next_email_index: next_index = {next_index}")
         return redirect(url_for('index', index=next_index))
-
     elif 'previous_email' in request.form:
         previous_index = get_previous_email_index(df, index)
         print(f"Previous Index: {previous_index}")
