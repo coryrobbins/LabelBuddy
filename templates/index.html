@@ -62,10 +62,14 @@
     <div class="email-display">
       {{ email }}
     </div>
-    <div id="label-display">
+    <div id="label-display" class="label-display">
     Assigned Label: {{ assigned_label }}
   </div>
-    <form action="{{ url_for('label') }}" method="post">
+      <!-- <form action="{{ url_for('label') }}" method="post"> -->
+      <form method="POST" action="{{ url_for('label', index=index) }}">
+        <input type="hidden" name="index" value="{{ index }}">
+        <input type="hidden" name="next_index" value="{{ index + 1 }}">
+        <p>Index: {{ index }}</p>
       <button type="submit" name="back">Back</button>
       {% for label in labels %}
         <button type="submit" name="label" value="{{ label }}">{{ label }}</button>
