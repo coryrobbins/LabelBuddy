@@ -67,14 +67,21 @@
   </div>
   <form method="POST" action="{{ url_for('label', index=index) }}">
     <input type="hidden" name="index" value="{{ index }}">
-    <input type="hidden" name="back" value="{{ previous_index }}">
-    <input type="hidden" name="next" value="{{ next_index }}">
     <p>Index: {{ index }}</p>
-    <button type="submit" name="back" value="{{ previous_index }}" {% if previous_index is none %}disabled{% endif %}>Back</button>
-    {% for label in labels %}
-        <button type="submit" name="label" value="{{ label }}">{{ label }}</button>
-      {% endfor %}
-      <button type="submit" name="next" value="{{ next_index }}" {% if next_index is none %}disabled{% endif %}>Next</button>
-    </form>
+    {% if assigned_index >= 0 %}
+    <div class="label-display">
+      Assigned Label: {{ assigned_label }}
+    </div>
+    {% endif %}
+    {% for label in labels %} 
+     <button type="submit" name="label" value="{{ label }}" >{{ label }}</button>
+    {% endfor %}
+     <button type="submit" name="previous_email" value="Previous" {% if index == 0 %}disabled{% endif %}>
+      Previous
+    </button>
+    <button type="submit" name="next_email" value="Next" {% if index == num_emails - 1 %}disabled{% endif %}>
+      Next
+    </button>
+    </form>   
   </body>
 </html>
